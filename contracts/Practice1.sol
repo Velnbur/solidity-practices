@@ -50,7 +50,7 @@ contract Practice1 is IDataTypesPractice {
         return someUnsignedByte;
     }
 
-    bool someBool = false;
+    bool someBool = true;
 
     function getBool() external view returns (bool) {
         return someBool;
@@ -68,7 +68,7 @@ contract Practice1 is IDataTypesPractice {
         return someBytes;
     }
 
-    uint256[5] numbersArray;
+    uint256[5] numbersArray = [1, 2, 3, 4, 5];
 
     function getArrayUint5() external view returns (uint256[5] memory) {
         return numbersArray;
@@ -80,7 +80,7 @@ contract Practice1 is IDataTypesPractice {
         return numbers;
     }
 
-    string someString = "Hello, world!";
+    string someString = "Hello World!";
 
     function getString() external view returns (string memory) {
         return someString;

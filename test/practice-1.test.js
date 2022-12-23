@@ -30,7 +30,7 @@ describe("Practice1", () => {
   });
 
   it("getBool", async () => {
-    assert.equal(await practice1.getBool(), false);
+    assert.equal(await practice1.getBool(), true);
   });
 
   it("getBytes32", async () => {
@@ -60,7 +60,7 @@ describe("Practice1", () => {
   it("getString", async () => {
     const str = await practice1.getString();
 
-    assert.equal(str, "Hello, world!");
+    assert.equal(str, "Hello World!");
   });
 
   it("getBigUint", async () => {
