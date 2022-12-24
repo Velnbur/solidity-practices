@@ -1,5 +1,7 @@
 const { accounts, wei } = require("../scripts/utils/utils");
 
+const { artifacts } = require("hardhat");
+
 const Practice2 = artifacts.require("Practice2");
 const { assert } = require("chai");
 
