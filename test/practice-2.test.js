@@ -1,6 +1,7 @@
 const { accounts, wei } = require("../scripts/utils/utils");
 const { artifacts } = require("hardhat");
 const { assert } = require("chai");
+const Reverter = require("./helpers/reverter");
 
 const Practice2 = artifacts.require("Practice2");
 
@@ -15,77 +16,69 @@ const compare = (user, result) => {
 describe("Practice2", () => {
   let contract;
 
-  beforeEach("setup contract", async () => {
-    contract = await Practice2.new();
+  let OWNER;
+  let FIRST_ADDR;
+  let SECOND_ADDR;
+
+  let FIRST = {
+    name: "Kyrylo",
+    balance: wei("10"),
+    isActive: true,
+  };
+
+  let SECOND = {
+    name: "Andriy",
+    balance: wei("1000"),
+    isActive: false,
+  };
+
+  const reverter = new Reverter();
+
+  before(async () => {
+    OWNER = await accounts(0);
+
+    contract = await Practice2.new({
+      from: OWNER,
+    });
+
+    FIRST_ADDR = await accounts(1);
+    SECOND_ADDR = await accounts(2);
+
+    await contract.setNewUser(FIRST_ADDR, FIRST);
+    await contract.setNewUser(SECOND_ADDR, SECOND);
+
+    await reverter.snapshot();
   });
 
-  describe("setNewUser", () => {
-    it("should add user without errors", async () => {
-      const userAddress = await accounts(0);
-
-      await contract.setNewUser(userAddress, {
-        name: "Kyrylo",
-        balance: 100_000_000,
-        isActive: true,
-      });
-    });
+  afterEach("revert", async () => {
+    await reverter.revert();
   });
 
   describe("getUser", () => {
-    let FIRST_ADDR;
-    let FIRST = {
-      name: "Kyrylo",
-      balance: 100_000_000,
-      isActive: true,
-    };
-    let SECOND_ADDR;
-    let SECOND = {
-      name: "Andriy",
-      balance: wei("1000"),
-      isActive: false,
-    };
+    it("should get users by address", async () => {
+      const firstUser = await contract.getUser(FIRST_ADDR);
+      compare(FIRST, firstUser);
 
-    beforeEach("setup contract storage", async () => {
-      FIRST_ADDR = await accounts(0);
-      SECOND_ADDR = await accounts(1);
-
-      await contract.setNewUser(FIRST_ADDR, FIRST);
-      await contract.setNewUser(SECOND_ADDR, SECOND);
-    });
-
-    it("should get first user", async () => {
-      const user = await contract.getUser(FIRST_ADDR);
-
-      compare(FIRST, user);
-    });
-
-    it("should get second user", async () => {
-      const user = await contract.getUser(SECOND_ADDR);
-
-      compare(SECOND, user);
+      const secondUser = await contract.getUser(SECOND_ADDR);
+      compare(SECOND, secondUser);
     });
   });
 
   describe("getMyInfo", () => {
-    let SENDER_ADDR;
-    let SENDER = {
-      name: "Kyrylo",
-      balance: wei("100"),
-      isActive: true,
-    };
-
-    beforeEach("setup contract storage", async () => {
-      SENDER_ADDR = await accounts(0);
-
-      await contract.setNewUser(SENDER_ADDR, SENDER);
-    });
-
-    it("should return user of a sender addr", async () => {
+    it("should return user of a sender address", async () => {
       const user = await contract.getMyInfo({
-        from: SENDER_ADDR,
+        from: FIRST_ADDR,
       });
 
-      compare(SENDER, user);
+      compare(FIRST, user);
+    });
+  });
+
+  describe("ownable", () => {
+    it("should return address of creator", async () => {
+      const owner = await contract.owner();
+
+      assert.equal(owner, OWNER);
     });
   });
 });
