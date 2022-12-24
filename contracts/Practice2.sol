@@ -16,17 +16,17 @@ interface IDataStructurePractice {
 }
 
 contract Practice2 is IDataStructurePractice {
-    mapping(address => User) users;
+    mapping(address => User) internal _users;
 
     function setNewUser(address _userAdr, User calldata _newUser) external {
-        users[_userAdr] = _newUser;
+        _users[_userAdr] = _newUser;
     }
 
     function getUser(address _user) external view returns (User memory) {
-        return users[_user];
+        return _users[_user];
     }
 
     function getMyInfo() external view returns (User memory) {
-        return users[msg.sender];
+        return _users[msg.sender];
     }
 }
