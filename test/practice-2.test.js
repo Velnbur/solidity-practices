@@ -21,10 +21,6 @@ describe("Practice2", () => {
   });
 
   describe("setNewUser", () => {
-    before(async () => {
-      contract = await Practice2.new();
-    });
-
     it("should add user without errors", async () => {
       const userAddress = await accounts(0);
 
