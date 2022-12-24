@@ -1,9 +1,8 @@
 const { accounts, wei } = require("../scripts/utils/utils");
-
 const { artifacts } = require("hardhat");
+const { assert } = require("chai");
 
 const Practice2 = artifacts.require("Practice2");
-const { assert } = require("chai");
 
 const compare = (user, result) => {
   const keys = Object.keys(user);
