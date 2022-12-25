@@ -66,8 +66,6 @@ contract MemoryTypesPracticeInput is IMemoryTypesPractice, Ownable {
     // Now consumes 27835
     // Should consume not more than 27830 as execution cost for non zero values
     function calc1() external view returns (uint256) {
-        uint256 _localA = a;
-
         return b + c * a;
     }
 
@@ -75,27 +73,31 @@ contract MemoryTypesPracticeInput is IMemoryTypesPractice, Ownable {
     // Now consumes 31253
     // Should consume not more than 30000 as execution cost for non zero values
     function calc2() external view returns (uint256) {
+        uint256 a_ = a;
+        uint256 b_ = b;
+        uint256 c_ = c;
+
         return
-            ((((b + c) *
-                (b + a) +
-                (c + a) *
-                c +
-                c /
-                a +
-                c /
-                b +
+            ((((b_ + c_) *
+                (b_ + a_) +
+                (c_ + a_) *
+                c_ +
+                c_ /
+                a_ +
+                c_ /
+                b_ +
                 2 *
-                a -
+                a_ -
                 1 +
-                a *
-                b *
-                c +
-                a +
-                b *
-                a) ^ 2) / (a + b)) *
-            c +
+                a_ *
+                b_ *
+                c_ +
+                a_ +
+                b_ *
+                a_) ^ 2) / (a_ + b_)) *
+            c_ +
             2 *
-            a;
+            a_;
     }
 
     // to optimize 3
