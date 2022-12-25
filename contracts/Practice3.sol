@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: UNLICENSED
-pragma solidity 0.8.17;
+pragma solidity 0.8.9;
 
 import "@openzeppelin/contracts/access/Ownable.sol";
 
@@ -125,7 +125,7 @@ contract MemoryTypesPracticeInput is IMemoryTypesPractice, Ownable {
         uint32 iq;
     }
 
-    Man[] internal men;
+    Man[] men;
 
     // Now consumes 115724
     // Should consume not more than 94000 as execution cost
