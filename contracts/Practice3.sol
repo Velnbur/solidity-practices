@@ -143,12 +143,13 @@ contract MemoryTypesPracticeInput is IMemoryTypesPractice, Ownable {
     // Should consume not more than 36100 as execution cost for 6 elements array
     function getMiddleDickSize() external view returns (uint256) {
         uint256 _sum;
+        uint256 _menLength = men.length;
 
-        for (uint256 i = 0; i < men.length; i++) {
+        for (uint256 i = 0; i < _menLength; i++) {
             _sum += men[i].dickSize;
         }
 
-        return _sum / men.length;
+        return _sum / _menLength;
     }
 
     // to optimize 6

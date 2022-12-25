@@ -15,10 +15,6 @@ describe("Practice3", () => {
 
   const reverter = new Reverter();
 
-  const A = 100_000;
-  const B = 123_123;
-  const C = 1_000_000_000;
-
   before(async () => {
     VALIDATOR = await accounts(0);
 
@@ -31,10 +27,6 @@ describe("Practice3", () => {
 
     practice3 = await Practice3.new(VALIDATOR, userInfoContract.address);
 
-    await practice3.setA(A);
-    await practice3.setB(B);
-    await practice3.setC(C);
-
     await reverter.snapshot();
   });
 
@@ -42,19 +34,26 @@ describe("Practice3", () => {
     await reverter.revert();
   });
 
-  describe("calc1", () => {
-    it.skip("should consume not more than 27830 gas", async () => {
+  describe("calc(1-2)", () => {
+    beforeEach("setup a,b,c values", async () => {
+      const A = 100_000;
+      const B = 123_123;
+      const C = 1_000_000_000;
+
+      await practice3.setA(A);
+      await practice3.setB(B);
+      await practice3.setC(C);
+    });
+
+    it.skip("calc1 should consume not more than 27830 gas", async () => {
       const tx = await practice3.calc1.sendTransaction();
 
       const gasUsed = tx.receipt.gasUsed;
-      console.log("gas used by calc1:", gasUsed);
 
       assert.isBelow(gasUsed, 27830);
     });
-  });
 
-  describe("calc2", () => {
-    it("should consume not more than 30000 gas", async () => {
+    it("calc2 should consume not more than 30000 gas", async () => {
       const tx = await practice3.calc2.sendTransaction();
 
       const gasUsed = tx.receipt.gasUsed;
@@ -68,7 +67,6 @@ describe("Practice3", () => {
       const tx = await practice3.claimRewards.sendTransaction(VALIDATOR);
 
       const gasUsed = tx.receipt.gasUsed;
-      console.log("gas used: ", gasUsed);
 
       assert.isBelow(gasUsed, 54_500);
     });
@@ -79,9 +77,27 @@ describe("Practice3", () => {
       const tx = await practice3.addNewMan.sendTransaction(10, 255, "0x000000123213", 155);
 
       const gasUsed = tx.receipt.gasUsed;
-      console.log("gas used: ", gasUsed);
 
       assert.isBelow(gasUsed, 94_000);
+    });
+  });
+
+  describe("getMiddleDickSize", () => {
+    beforeEach("setup six evarage men", async () => {
+      for (let i = 0; i < 6; i++) {
+        await practice3.addNewMan(10, 155 + i, "0x000000123213", 155);
+      }
+    });
+
+    // FIXME: without optimizations consumes 41925 with: 41133
+    //   in tasks consumes 36689, must not more than 36100
+    it.skip("getMiddleDickSize should consume not more than 36100 gas", async () => {
+      const tx = await practice3.getMiddleDickSize.sendTransaction();
+
+      const gasUsed = tx.receipt.gasUsed;
+      console.log("gas used: ", gasUsed);
+
+      assert.isBelow(gasUsed, 36_100);
     });
   });
 });
