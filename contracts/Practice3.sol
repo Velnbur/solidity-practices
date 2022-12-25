@@ -157,10 +157,10 @@ contract MemoryTypesPracticeInput is IMemoryTypesPractice, Ownable {
     // Should consume not more than 40000 as execution cost for 6 elements array
     function numberOfOldMenWithHighIq() external view returns (uint256) {
         uint256 _count;
+        uint256 _menLength = men.length;
 
-        for (uint256 i = 0; i < men.length; i++) {
-            Man memory man = men[i];
-            if (man.edge > 50 && man.iq > 120) _count++;
+        for (uint256 i = 0; i < _menLength; i++) {
+            if (men[i].edge > 50 && men[i].iq > 120) _count++;
         }
 
         return _count;

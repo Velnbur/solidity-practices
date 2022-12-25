@@ -82,7 +82,7 @@ describe("Practice3", () => {
     });
   });
 
-  describe("getMiddleDickSize", () => {
+  describe("test men iteration functions", () => {
     beforeEach("setup six evarage men", async () => {
       for (let i = 0; i < 6; i++) {
         await practice3.addNewMan(10, 155 + i, "0x000000123213", 155);
@@ -98,6 +98,17 @@ describe("Practice3", () => {
       console.log("gas used: ", gasUsed);
 
       assert.isBelow(gasUsed, 36_100);
+    });
+
+    // FIXME: without optimizations consumes 71280, with: 40702
+    //   in task consunes 68675, must not more than 40000
+    it.skip("numberOfOldMenWithHighIq should consume not more that 40000", async () => {
+      const tx = await practice3.numberOfOldMenWithHighIq.sendTransaction();
+
+      const gasUsed = tx.receipt.gasUsed;
+      console.log("gas used: ", gasUsed);
+
+      assert.isBelow(gasUsed, 40_000);
     });
   });
 });
