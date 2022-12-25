@@ -73,4 +73,15 @@ describe("Practice3", () => {
       assert.isBelow(gasUsed, 54_500);
     });
   });
+
+  describe("addNewMan", () => {
+    it("should consume not more than 94000 gas", async () => {
+      const tx = await practice3.addNewMan.sendTransaction(10, 255, "0x000000123213", 155);
+
+      const gasUsed = tx.receipt.gasUsed;
+      console.log("gas used: ", gasUsed);
+
+      assert.isBelow(gasUsed, 94_000);
+    });
+  });
 });

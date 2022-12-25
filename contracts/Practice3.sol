@@ -104,17 +104,15 @@ contract MemoryTypesPracticeInput is IMemoryTypesPractice, Ownable {
     // Now consumes 55446
     // Should consume not more than 54500 as execution cost
     function claimRewards(address _user) external {
+        IUserInfo.User memory user_ = userInfo.getUserInfo(_user);
         require(
-            userInfo.getUserInfo(_user).unlockTime <= block.timestamp,
+            user_.unlockTime <= block.timestamp,
             "MemoryTypesPracticeInput: Unlock time has not yet come"
         );
 
         require(!rewardsClaimed[_user], "MemoryTypesPracticeInput: Rewards are already claimed");
 
-        require(
-            userInfo.getUserInfo(_user).balance >= MIN_BALANCE,
-            "MemoryTypesPracticeInput: To less balance"
-        );
+        require(user_.balance >= MIN_BALANCE, "MemoryTypesPracticeInput: To less balance");
 
         rewardsClaimed[_user] = true;
     }
@@ -122,8 +120,8 @@ contract MemoryTypesPracticeInput is IMemoryTypesPractice, Ownable {
     // to optimize 4
     struct Man {
         uint256 edge;
-        uint8 dickSize;
         bytes32 idOfSecretBluetoothVacinationChip;
+        uint8 dickSize;
         uint32 iq;
     }
 
@@ -137,7 +135,7 @@ contract MemoryTypesPracticeInput is IMemoryTypesPractice, Ownable {
         bytes32 _idOfSecretBluetoothVacinationChip,
         uint32 _iq
     ) public {
-        men.push(Man(_edge, _dickSize, _idOfSecretBluetoothVacinationChip, _iq));
+        men.push(Man(_edge, _idOfSecretBluetoothVacinationChip, _dickSize, _iq));
     }
 
     // to optimize 5
