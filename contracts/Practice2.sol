@@ -24,8 +24,8 @@ contract Practice2 is IDataStructurePractice, Ownable {
         _users[_userAdr] = _newUser;
     }
 
-    function getUser(address _user) external view returns (User memory) {
-        return _users[_user];
+    function getUser(address _address) external view returns (User memory) {
+        return _users[_address];
     }
 
     function getMyInfo() external view returns (User memory) {
