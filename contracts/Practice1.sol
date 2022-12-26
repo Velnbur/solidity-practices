@@ -26,70 +26,70 @@ interface IDataTypesPractice {
 }
 
 contract Practice1 is IDataTypesPractice {
-    int256 signedNum = 0xFFFFFFFFFFFFFFFFFFFF;
+    int256 signedNum = -123123;
+
+    uint256 unsignedNum = 111111;
+
+    int8 smallNum = 120;
+
+    uint8 smallUnsignedNum = 255;
+
+    bool isTrue = true;
+
+    address someAddress = 0xd35c0a2d081493467196A01769B63616F8D8805f;
+
+    bytes32 someBytes = "some bytes";
+
+    uint256[5] numbersArray = [1, 2, 3, 4, 5];
+
+    uint256[] numbers = new uint256[](10);
+
+    string helloWorld = "Hello World!";
 
     function getInt256() external view returns (int256) {
         return signedNum;
     }
 
-    uint256 unsignedNum = 0x0000001;
-
     function getUint256() external view returns (uint256) {
         return unsignedNum;
     }
 
-    int8 someByte = 120;
-
     function getIint8() external view returns (int8) {
-        return someByte;
+        return smallNum;
     }
-
-    uint8 someUnsignedByte = 255;
 
     function getUint8() external view returns (uint8) {
-        return someUnsignedByte;
+        return smallUnsignedNum;
     }
-
-    bool someBool = true;
 
     function getBool() external view returns (bool) {
-        return someBool;
+        return isTrue;
     }
-
-    address someAddress = 0xd35c0a2d081493467196A01769B63616F8D8805f;
 
     function getAddress() external view returns (address) {
         return someAddress;
     }
 
-    bytes32 someBytes = "some bytes";
-
     function getBytes32() external view returns (bytes32) {
         return someBytes;
     }
-
-    uint256[5] numbersArray = [1, 2, 3, 4, 5];
 
     function getArrayUint5() external view returns (uint256[5] memory) {
         return numbersArray;
     }
 
-    uint256[] numbers = new uint256[](10);
-
     function getArrayUint() external view returns (uint256[] memory) {
         return numbers;
     }
 
-    string someString = "Hello World!";
-
     function getString() external view returns (string memory) {
-        return someString;
+        return helloWorld;
     }
 
     function getBigUint() external pure returns (uint256) {
         uint256 v1 = 1;
-        // uint256 v2 = 2;
+        uint256 v2 = 2;
 
-        return ~v1; // inverts all bits
+        return ~v2 + v1; // inverts all bits
     }
 }

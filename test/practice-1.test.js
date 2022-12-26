@@ -14,11 +14,11 @@ describe("Practice1", () => {
   });
 
   it("getInt256", async () => {
-    assert.equal(toBN(await practice1.getInt256()).toString(16), "ffffffffffffffffffff");
+    assert.equal(await practice1.getInt256(), -123_123);
   });
 
   it("getUint256", async () => {
-    assert.equal(await practice1.getUint256(), 1);
+    assert.equal(await practice1.getUint256(), 111_111);
   });
 
   it("getIint8", async () => {
